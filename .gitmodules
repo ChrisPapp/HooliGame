@@ -1,0 +1,3 @@
+[submodule "sgg"]
+	path = vendor/sgg
+	url = https://github.com/cgaueb/sgg
