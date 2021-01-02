@@ -21,15 +21,13 @@ project "Game"
             "{COPY} vendor/sgg/3rdparty/bin/*.dll %{cfg.targetdir}"
         }
     elseif os.host() == "linux" then
-        os.execute "vendor/sgg/build_sgg_x64.sh"
+        os.execute "cd vendor/sgg; ./build_sgg_x64.sh"
     else
-        os.execute "vendor/sgg/build_sgg_macOS.sh" 
+        os.execute "cd vendor/sgg; ./build_sgg_macOS.sh" 
     end
 
-    includedirs {
-        "vendor/sgg/graphics/"
-    }
-    libdirs { "vendor/sgg/lib/",}
+    includedirs { "vendor/sgg/graphics/" }
+    libdirs { "vendor/sgg/lib/" }
 
     filter "configurations:Debug"
         defines "DEBUG"
