@@ -38,8 +38,8 @@ project "Game"
         filter "configurations:Release"
             links { "sgg" }
 
-    elseif os.host() == "darwin" then
-        os.execute "cd vendor/sgg; ./build_sgg_x64.sh"
+    elseif os.host() == "macosx" then
+        os.execute "cd vendor/sgg; ./build_sgg_macOS.sh"
 
         filter "configurations:Debug"
             links { "sggd", "GLEW", "SDL2", "SDL2_mixer", "freetype", "framework.dll", "OpenGL.framework" }
