@@ -17,19 +17,24 @@ This generates the solution file for Visual Studio. You can build it using Visua
 
 ## Mac
 
+In order to install the required libraries run
+```bash
+brew bundle install
+```
+Make sure you already have [Homebrew](https://github.com/Homebrew/brew) and [Bundle](https://github.com/Homebrew/homebrew-bundle)
 
-To create GNU make files run:
+To create GNU Makefiles run
 ```bash
 vendor/premake5_mac_x64 gmake2
 ```
 
-After the make files are created, run 
+After the Makefiles are created, run
 ```bash
 make
 ```
-to build the project.
-
-In order to build the optimized version run
+to build the project
+ 
+For the optimized version, run
 ```bash
 make config=release
 ```
