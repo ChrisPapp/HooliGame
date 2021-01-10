@@ -11,7 +11,7 @@ project "Game"
     objdir("bin/obj/" .. outputdir)
 
     files { "src/**.h", "src/**.cpp" }
-    includedirs { "src", "vendor/sgg/graphics/", "vendor/sgg/3rdparty/include/" }
+    includedirs { "src/", "vendor/sgg/graphics/", "vendor/sgg/3rdparty/include/" }
     libdirs { "vendor/sgg/lib/" }
 
     filter "configurations:Debug"
