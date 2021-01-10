@@ -7,3 +7,4 @@ bin/
 *VC*db
 *\.sw.
 lib
+Brewfile\.lock\.json
