@@ -2,18 +2,18 @@
 #include "graphics.h"
 #include "Config.h"
 
-void Game::init()
+void Game::Init()
 {
-	hool.init();
+	hool.Init();
 }
 
-void Game::update()
+void Game::Update()
 {
-	hool.update();
+	hool.Update();
 }
 
-void Game::draw()
+void Game::Draw()
 {
 
-	hool.draw();
+	hool.Draw();
 }

@@ -7,20 +7,20 @@
 void update(float ms)
 {
 	Game *game = reinterpret_cast<Game *> (graphics::getUserData());
-	game->update();
+	game->Update();
 }
 
 // The window content drawing function.
 void draw()
 {
 	Game *game = reinterpret_cast<Game *> (graphics::getUserData());
-	game->draw();
+	game->Draw();
 }
 
 int main()
 {
 	Game game;
-	game.init();
+	game.Init();
 	graphics::createWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "Hooligame");
 	graphics::setUserData(&game);
 

@@ -1,6 +1,6 @@
 #include "Hooligan.h"
 
-void Hooligan::init()
+void Hooligan::Init()
 {
 	pos = glm::vec2(200, 250);
 	speed = glm::vec2(0, 0);
@@ -11,12 +11,12 @@ void Hooligan::init()
 	br.fill_color[2] = 1.0f;
 }
 
-void Hooligan::draw()
+void Hooligan::Draw()
 {
 	graphics::drawRect(pos.x, pos.y, width, height, br);
 }
 
-void Hooligan::update()
+void Hooligan::Update()
 {
 	pos.x += 0.1;
 }

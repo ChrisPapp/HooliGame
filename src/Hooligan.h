@@ -3,9 +3,9 @@
 
 class Hooligan {
 public:
-	void update();
-	void draw();
-	void init();
+	void Update();
+	void Draw();
+	void Init();
 private:
 	glm::vec2 pos;
 	glm::vec2 speed;
