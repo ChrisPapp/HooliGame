@@ -10,8 +10,7 @@ public:
 	bool Update();
 
 private:
-	float width, height;
-	float speed;
+	float width, height, speed;
 	graphics::Brush br;
 	glm::vec2 pos;
 	glm::vec2 dir;

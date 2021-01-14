@@ -3,6 +3,8 @@
 #include "Hooligan.h"
 #include "Projectile.h"
 
+#define DELTA_TIME (graphics::getDeltaTime() / 1000.f)
+
 class Game {
 public:
 	void Update();

@@ -5,7 +5,7 @@
 
 void Game::Init()
 {
-	hool.Init(graphics::SCANCODE_W, graphics::SCANCODE_S, graphics::SCANCODE_A, graphics::SCANCODE_D);
+	hool.Init(graphics::SCANCODE_W, graphics::SCANCODE_S, graphics::SCANCODE_A, graphics::SCANCODE_D, graphics::SCANCODE_SPACE);
 }
 
 void Game::Update()
@@ -14,7 +14,7 @@ void Game::Update()
 	// Update projectiles and clean-up (remove invalid ones).
 	projectiles.erase(std::remove_if(projectiles.begin(), projectiles.end(), [](Projectile& proj)
 	{
-		return proj.Update();
+		return !proj.Update();
 	}), projectiles.end());
 }
 
@@ -23,7 +23,7 @@ void Game::Draw()
 
 	hool.Draw();
 	for (Projectile &proj : projectiles) {
-		proj.Update();
+		proj.Draw();
 	}
 }
 
