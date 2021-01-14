@@ -14,9 +14,9 @@ void Game::Update()
 	hool1.Update();
 	hool2.Update();
 	// Update projectiles and clean-up (remove invalid ones).
-	projectiles.erase(std::remove_if(projectiles.begin(), projectiles.end(), [](Projectile& proj)
+	projectiles.erase(std::remove_if(projectiles.begin(), projectiles.end(), [&](Projectile& proj)
 	{
-		return !proj.Update();
+		return !proj.Update() || hool1.IsHit(proj) || hool2.IsHit(proj);
 	}), projectiles.end());
 }
 

@@ -3,11 +3,12 @@
 #include "Game.h"
 #include "Projectile.h"
 
-Projectile::Projectile(glm::vec2 &pos, glm::vec2 &dir)
+Projectile::Projectile(glm::vec2 &pos, glm::vec2 &dir, Hooligan *source)
 {
 	this->bbox.center = pos;
 	this->bbox.half_dims = glm::vec2(10, 10);
 	this->dir = glm::normalize(dir);
+	this->source = source;
 	speed = 1300.0f;
 	br.fill_color[0] = 1.0f;
 	br.fill_color[1] = 1.0f;

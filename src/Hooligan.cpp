@@ -59,7 +59,7 @@ void Hooligan::Update()
 		Game *game = (Game *) graphics::getUserData();
 		float current_time = graphics::getGlobalTime();
 		if (current_time - last_fire > 1000.f / FIRE_RATE) {
-			game->AddProjectile(Projectile(this->bbox.center, glm::vec2(1.f /* Fire to the right */, dir.y)));
+			game->AddProjectile(Projectile(this->bbox.center, glm::vec2(1.f /* Fire to the right */, dir.y), this));
 			last_fire = current_time;
 		}
 	}
@@ -73,4 +73,15 @@ void Hooligan::SetPosition(glm::vec2 &pos)
 		this->bbox.center = last;
 		dir = glm::vec2(0);
 	}
+}
+
+bool Hooligan::IsHit(Projectile &proj)
+{
+	// We cannot attack ourselves
+	if (proj.GetSource() == this)
+		return false;
+	if (this->Collide(proj) == Outside)
+		return false;
+	dir += proj.GetDirection(); // Simulate being pushed back
+	return true;
 }
