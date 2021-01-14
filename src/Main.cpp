@@ -6,15 +6,18 @@
 // to check for and set the current application state.
 void update(float ms)
 {
-	Game *game = reinterpret_cast<Game *> (graphics::getUserData());
-	game->Update();
+	GetGame()->Update();
 }
 
 // The window content drawing function.
 void draw()
 {
-	Game *game = reinterpret_cast<Game *> (graphics::getUserData());
-	game->Draw();
+	GetGame()->Draw();
+}
+
+void resize(int x, int y)
+{
+	GetGame()->Resize(x, y);
 }
 
 int main()
@@ -25,6 +28,7 @@ int main()
 
 	graphics::setDrawFunction(draw);
 	graphics::setUpdateFunction(update);
+	graphics::setResizeFunction(resize);
 	graphics::setCanvasSize(CANVAS_WIDTH, CANVAS_HEIGHT);
 	graphics::setCanvasScaleMode(graphics::CANVAS_SCALE_FIT);
 	graphics::Brush br;

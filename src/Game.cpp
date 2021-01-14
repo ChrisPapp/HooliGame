@@ -5,12 +5,14 @@
 
 void Game::Init()
 {
-	hool.Init(graphics::SCANCODE_W, graphics::SCANCODE_S, graphics::SCANCODE_A, graphics::SCANCODE_D, graphics::SCANCODE_SPACE);
+	hool1.Init(graphics::SCANCODE_W, graphics::SCANCODE_S, graphics::SCANCODE_A, graphics::SCANCODE_D, graphics::SCANCODE_SPACE);
+	hool2.Init(graphics::SCANCODE_I, graphics::SCANCODE_K, graphics::SCANCODE_J, graphics::SCANCODE_L, graphics::SCANCODE_P);
 }
 
 void Game::Update()
 {
-	hool.Update();
+	hool1.Update();
+	hool2.Update();
 	// Update projectiles and clean-up (remove invalid ones).
 	projectiles.erase(std::remove_if(projectiles.begin(), projectiles.end(), [](Projectile& proj)
 	{
@@ -21,7 +23,8 @@ void Game::Update()
 void Game::Draw()
 {
 
-	hool.Draw();
+	hool1.Draw();
+	hool2.Draw();
 	for (Projectile &proj : projectiles) {
 		proj.Draw();
 	}
@@ -30,4 +33,19 @@ void Game::Draw()
 void Game::AddProjectile(Projectile &&proj)
 {
 	this->projectiles.push_back(proj);
+}
+
+void Game::Resize(int x, int y)
+{
+	this->bounds = AABB(glm::vec2((float)x / 2, (float)y / 2), (float)x, (float)y);
+}
+
+float GetDeltaSeconds()
+{ 
+	return (graphics::getDeltaTime() / 1000.f); 
+}
+
+Game *GetGame()
+{ 
+	return reinterpret_cast<Game *> (graphics::getUserData()); 
 }

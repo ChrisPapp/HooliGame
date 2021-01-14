@@ -1,9 +1,8 @@
 #pragma once
 #include <vector>
+#include "Collidable.h"
 #include "Hooligan.h"
 #include "Projectile.h"
-
-#define DELTA_TIME (graphics::getDeltaTime() / 1000.f)
 
 class Game {
 public:
@@ -11,7 +10,13 @@ public:
 	void Draw();
 	void Init();
 	void AddProjectile(Projectile &&proj);
+	void Resize(int x, int y);
+	AABB &GetBounds() { return bounds; };
 private:
-	Hooligan hool;
+	Hooligan hool1, hool2;
 	std::vector<Projectile> projectiles;
+	AABB bounds;
 };
+
+float GetDeltaSeconds();
+Game *GetGame();
