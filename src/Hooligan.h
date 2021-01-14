@@ -26,4 +26,5 @@ private:
 		num_keys,
 	};
 	std::array<graphics::scancode_t, movement_keys::num_keys> keys;
+	float last_fire;
 };

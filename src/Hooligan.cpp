@@ -2,10 +2,12 @@
 #include "Game.h"
 #include "glm/glm.hpp"
 
-// Maximum canvas units per second
+// Maximum canvas units per second per axis
 #define MAX_SPEED 750.f
 // Speed increase per second
 #define ACCELERATION 2000.f
+// Rate of fire (projectiles per second)
+#define FIRE_RATE 4
 
 void Hooligan::Init(graphics::scancode_t up_key, graphics::scancode_t down_key,
 	graphics::scancode_t left_key, graphics::scancode_t right_key, graphics::scancode_t fire_key)
@@ -17,6 +19,7 @@ void Hooligan::Init(graphics::scancode_t up_key, graphics::scancode_t down_key,
 	br.fill_color[0] = 1.0f;
 	br.fill_color[1] = 0.0f;
 	br.fill_color[2] = 1.0f;
+	last_fire = graphics::getGlobalTime();
 	keys[movement_keys::up] = up_key;
 	keys[movement_keys::down] = down_key;
 	keys[movement_keys::left] = left_key;
@@ -54,6 +57,10 @@ void Hooligan::Update()
 	// Fire
 	if (graphics::getKeyState(keys[movement_keys::fire])) {
 		Game *game = (Game *) graphics::getUserData();
-		game->AddProjectile(Projectile(this->pos, glm::vec2(1.f /* Fire to the right */, dir.y)));
+		float current_time = graphics::getGlobalTime();
+		if (current_time - last_fire > 1000.f / FIRE_RATE) {
+			game->AddProjectile(Projectile(this->pos, glm::vec2(1.f /* Fire to the right */, dir.y)));
+			last_fire = current_time;
+		}
 	}
 }

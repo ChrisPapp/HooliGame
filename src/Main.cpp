@@ -20,7 +20,6 @@ void draw()
 int main()
 {
 	Game game;
-	game.Init();
 	graphics::createWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "Hooligame");
 	graphics::setUserData(&game);
 
@@ -33,6 +32,7 @@ int main()
 	br.fill_color[1] = 0.0f;
 	br.fill_color[2] = 0.0f;
 	graphics::setWindowBackground(br);
+	game.Init();
 	graphics::startMessageLoop();
 
 	return 0;
