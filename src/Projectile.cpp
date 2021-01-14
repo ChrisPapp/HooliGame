@@ -2,6 +2,7 @@
 #include "graphics.h"
 #include "Game.h"
 #include "Projectile.h"
+#include "Config.h"
 
 Projectile::Projectile(glm::vec2 &pos, glm::vec2 &dir)
 {
@@ -22,6 +23,17 @@ void Projectile::Draw()
 
 bool Projectile::Update()
 {
-	pos += speed * DELTA_TIME * dir;
+	return SetPosition(pos + speed * DELTA_TIME * dir);
+}
+
+bool Projectile::SetPosition(glm::vec2 &pos)
+{
+	// Ensure we are in bounds
+
+	if (pos.x + width / 2 < 0 || pos.x - width / 2 > CANVAS_WIDTH ||
+		pos.y + height / 2 < 0 || pos.y - height / 2 > CANVAS_HEIGHT) {
+		return false;
+	}
+	this->pos = pos;
 	return true;
 }

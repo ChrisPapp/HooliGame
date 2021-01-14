@@ -1,6 +1,7 @@
 #include "Hooligan.h"
 #include "Game.h"
 #include "glm/glm.hpp"
+#include "Config.h"
 
 // Maximum canvas units per second per axis
 #define MAX_SPEED 750.f
@@ -51,7 +52,7 @@ void Hooligan::Update()
 		signbit(dir.x) ? dir.x = glm::min(0.f, dir.x + (ACCELERATION / MAX_SPEED) * DELTA_TIME) : dir.x = glm::max(0.f, dir.x - (ACCELERATION / MAX_SPEED) * DELTA_TIME);
 	// Keep within [-1, 1]
 	dir = glm::max(glm::min(glm::vec2(1.f), dir), glm::vec2(-1.f));
-	pos += DELTA_TIME * MAX_SPEED * dir;
+	SetPosition(pos + DELTA_TIME * MAX_SPEED * dir);
 
 
 	// Fire
@@ -63,4 +64,18 @@ void Hooligan::Update()
 			last_fire = current_time;
 		}
 	}
+}
+
+void Hooligan::SetPosition(glm::vec2 &pos)
+{
+	// Ensure we are in bounds
+	if (pos.x - width / 2 < 0 || pos.x + width / 2 > CANVAS_WIDTH) {
+		dir.x = 0; // Simulate immediate stop
+		pos.x = this->pos.x;
+	}
+	if (pos.y - height / 2 < 0 || pos.y + height / 2 > CANVAS_HEIGHT) {
+		dir.y = 0; // Simulate immediate stop
+		pos.y = this->pos.y;
+	}
+	this->pos = pos;
 }

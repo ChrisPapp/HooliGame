@@ -15,4 +15,6 @@ private:
 	graphics::Brush br;
 	glm::vec2 pos;
 	glm::vec2 dir;
+
+	bool SetPosition(glm::vec2 &pos);
 };
