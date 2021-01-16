@@ -18,7 +18,7 @@ public:
 private:
 	glm::vec2 dir;
 	glm::vec2 face_dir;
-	graphics::Brush br;
+	graphics::Brush br, heart_br;
 
 	enum movement_keys {
 		up,
@@ -37,4 +37,7 @@ private:
 
 	// Space where this player can move around
 	Collidable bounds;
+
+	void DrawHooligan();
+	void DrawLives();
 };

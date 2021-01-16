@@ -1,7 +1,5 @@
 #include "Collidable.h"
 #include "glm/glm.hpp"
-#define MIN_DIM(aabb, dim) aabb.center.##dim - aabb.half_dims.##dim
-#define MAX_DIM(aabb, dim) aabb.center.##dim + aabb.half_dims.##dim
 
 AABB::AABB(glm::vec2 center, float width, float height)
 {

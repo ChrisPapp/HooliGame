@@ -10,7 +10,7 @@
 // Rate of fire (projectiles per second)
 #define FIRE_RATE 4
 
-#define INIT_LIVES 5
+#define INIT_LIVES 25
 
 void Hooligan::Init(glm::vec2 face_dir, graphics::scancode_t up_key, graphics::scancode_t down_key,
 	graphics::scancode_t left_key, graphics::scancode_t right_key, graphics::scancode_t fire_key)
@@ -22,6 +22,9 @@ void Hooligan::Init(glm::vec2 face_dir, graphics::scancode_t up_key, graphics::s
 	br.fill_color[0] = 1.0f;
 	br.fill_color[1] = 0.0f;
 	br.fill_color[2] = 1.0f;
+	heart_br.fill_color[0] = 1.0f;
+	heart_br.fill_color[1] = 0.0f;
+	heart_br.fill_color[2] = 0.0f;
 	last_fire = graphics::getGlobalTime();
 	keys[movement_keys::up] = up_key;
 	keys[movement_keys::down] = down_key;
@@ -33,7 +36,30 @@ void Hooligan::Init(glm::vec2 face_dir, graphics::scancode_t up_key, graphics::s
 
 void Hooligan::Draw()
 {
+	DrawHooligan();
+	DrawLives();
+}
+
+void Hooligan::DrawHooligan()
+{
 	graphics::drawRect(this->bbox.center.x, this->bbox.center.y, this->bbox.half_dims.x * 2, this->bbox.half_dims.y * 2, br);
+}
+
+void Hooligan::DrawLives()
+{
+	// Draw lives
+	float width = 20.0f, height = 20.0f, margin = 10.0f;
+	// Top left of player bounds
+	glm::vec2 heart_pos((MIN_DIM(this->bounds.bbox, x) + width + margin), (MIN_DIM(this->bounds.bbox, y) + height + margin));
+	for (int i = 0; i < lives; i++) {
+		graphics::drawRect(heart_pos.x, heart_pos.y, width, height, heart_br);
+		// Advance draw position
+		heart_pos.x += (width + margin);
+		if (heart_pos.x > MAX_DIM(this->bounds.bbox, x) - width - margin) { // Go down a row
+			heart_pos.x = (MIN_DIM(this->bounds.bbox, x) + width + margin);
+			heart_pos.y += (height + margin);
+		}
+	}
 }
 
 bool Hooligan::Update()
