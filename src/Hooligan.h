@@ -11,11 +11,13 @@ public:
 	// Returns true while this Hooligan is alive
 	bool Update();
 	void Draw();
-	void Init(graphics::scancode_t up_key, graphics::scancode_t down_key,
+	void Init(glm::vec2 face_dir, graphics::scancode_t up_key, graphics::scancode_t down_key,
 		graphics::scancode_t left_key, graphics::scancode_t right_key, graphics::scancode_t fire_key);
 	bool IsHit(Projectile &proj);
+	void SetBounds(Collidable &&coll);
 private:
 	glm::vec2 dir;
+	glm::vec2 face_dir;
 	graphics::Brush br;
 
 	enum movement_keys {
@@ -32,4 +34,7 @@ private:
 	void SetPosition(glm::vec2 &pos);
 
 	float lives;
+
+	// Space where this player can move around
+	Collidable bounds;
 };

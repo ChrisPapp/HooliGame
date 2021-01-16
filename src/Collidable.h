@@ -26,6 +26,5 @@ public:
 	Collidable(AABB &bounds) { bbox = bounds; };
 	Collidable() = default;
 	virtual CollisionType Collide(Collidable &other) { return this->bbox.CalculateIntersection(other.bbox); };
-protected:
 	AABB bbox;
 };

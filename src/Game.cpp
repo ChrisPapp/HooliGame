@@ -5,8 +5,10 @@
 
 void Game::Init()
 {
-	hool1.Init(graphics::SCANCODE_W, graphics::SCANCODE_S, graphics::SCANCODE_A, graphics::SCANCODE_D, graphics::SCANCODE_SPACE);
-	hool2.Init(graphics::SCANCODE_I, graphics::SCANCODE_K, graphics::SCANCODE_J, graphics::SCANCODE_L, graphics::SCANCODE_P);
+	// Faces right
+	hool1.Init(glm::vec2(1.f, 0.f), graphics::SCANCODE_W, graphics::SCANCODE_S, graphics::SCANCODE_A, graphics::SCANCODE_D, graphics::SCANCODE_SPACE);
+	// Faces left
+	hool2.Init(glm::vec2(-1.f, 0.f), graphics::SCANCODE_I, graphics::SCANCODE_K, graphics::SCANCODE_J, graphics::SCANCODE_L, graphics::SCANCODE_P);
 }
 
 void Game::Update()
@@ -37,7 +39,13 @@ void Game::AddProjectile(Projectile &&proj)
 
 void Game::Resize(int x, int y)
 {
-	this->bounds = AABB(glm::vec2((float)x / 2, (float)y / 2), (float)x, (float)y);
+	float x_f = (float)x, y_f = (float)y;
+	this->bounds = AABB(glm::vec2(x_f / 2, y_f / 2), x_f, y_f);
+	
+	// Hool1 moves to the left area of the screen
+	hool1.SetBounds(Collidable(AABB(glm::vec2(x_f / 4, y_f / 2), x_f / 2, y_f)));
+	// Hool2 moves to the right area of the screen
+	hool2.SetBounds(Collidable(AABB(glm::vec2(3 * x_f / 4, y_f / 2), x_f / 2, y_f)));
 }
 
 float GetDeltaSeconds()

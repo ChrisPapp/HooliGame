@@ -12,12 +12,13 @@
 
 #define INIT_LIVES 5
 
-void Hooligan::Init(graphics::scancode_t up_key, graphics::scancode_t down_key,
+void Hooligan::Init(glm::vec2 face_dir, graphics::scancode_t up_key, graphics::scancode_t down_key,
 	graphics::scancode_t left_key, graphics::scancode_t right_key, graphics::scancode_t fire_key)
 {
 	dir = glm::vec2(0, 0);
 	bbox.center = glm::vec2(200, 250);
 	bbox.half_dims = glm::vec2(25, 50);
+	this->face_dir = face_dir;
 	br.fill_color[0] = 1.0f;
 	br.fill_color[1] = 0.0f;
 	br.fill_color[2] = 1.0f;
@@ -38,7 +39,7 @@ void Hooligan::Draw()
 bool Hooligan::Update()
 {
 	if (lives <= 0)
-		return false; // Dead
+		return false; // RIP...
 	// Movement
 	if (graphics::getKeyState(keys[movement_keys::up]) && !graphics::getKeyState(keys[movement_keys::down]))
 		dir.y -= (ACCELERATION / MAX_SPEED) * GetDeltaSeconds();
@@ -63,18 +64,25 @@ bool Hooligan::Update()
 		Game *game = (Game *) graphics::getUserData();
 		float current_time = graphics::getGlobalTime();
 		if (current_time - last_fire > 1000.f / FIRE_RATE) {
-			game->AddProjectile(Projectile(this->bbox.center, glm::vec2(1.f /* Fire to the right */, dir.y), this));
+			game->AddProjectile(Projectile(this->bbox.center, glm::vec2(face_dir.x, face_dir.y + dir.y), this));
 			last_fire = current_time;
 		}
 	}
 	return true;
 }
 
+void Hooligan::SetBounds(Collidable &&coll)
+{
+	this->bounds = coll;
+	// Move to the center, to prevent being trapped out of bounds
+	SetPosition(this->bounds.bbox.center);
+}
+
 void Hooligan::SetPosition(glm::vec2 &pos)
 {
 	glm::vec2 last = this->bbox.center;
 	this->bbox.center = pos;
-	if (this->Collide(Collidable(GetGame()->GetBounds())) != CollisionType::Inside) {
+	if (this->bounds.Collide(*this) != CollisionType::Contains) {
 		this->bbox.center = last;
 		dir = glm::vec2(0);
 	}
