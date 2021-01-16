@@ -10,6 +10,8 @@
 // Rate of fire (projectiles per second)
 #define FIRE_RATE 4
 
+#define INIT_LIVES 5
+
 void Hooligan::Init(graphics::scancode_t up_key, graphics::scancode_t down_key,
 	graphics::scancode_t left_key, graphics::scancode_t right_key, graphics::scancode_t fire_key)
 {
@@ -25,6 +27,7 @@ void Hooligan::Init(graphics::scancode_t up_key, graphics::scancode_t down_key,
 	keys[movement_keys::left] = left_key;
 	keys[movement_keys::right] = right_key;
 	keys[movement_keys::fire] = fire_key;
+	lives = INIT_LIVES;
 }
 
 void Hooligan::Draw()
@@ -32,9 +35,10 @@ void Hooligan::Draw()
 	graphics::drawRect(this->bbox.center.x, this->bbox.center.y, this->bbox.half_dims.x * 2, this->bbox.half_dims.y * 2, br);
 }
 
-void Hooligan::Update()
+bool Hooligan::Update()
 {
-
+	if (lives <= 0)
+		return false; // Dead
 	// Movement
 	if (graphics::getKeyState(keys[movement_keys::up]) && !graphics::getKeyState(keys[movement_keys::down]))
 		dir.y -= (ACCELERATION / MAX_SPEED) * GetDeltaSeconds();
@@ -63,6 +67,7 @@ void Hooligan::Update()
 			last_fire = current_time;
 		}
 	}
+	return true;
 }
 
 void Hooligan::SetPosition(glm::vec2 &pos)
@@ -83,5 +88,6 @@ bool Hooligan::IsHit(Projectile &proj)
 	if (this->Collide(proj) == Outside)
 		return false;
 	dir += proj.GetDirection(); // Simulate being pushed back
+	lives--;
 	return true;
 }

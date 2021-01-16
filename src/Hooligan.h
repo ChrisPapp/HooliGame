@@ -8,7 +8,8 @@
 
 class Hooligan : public Collidable {
 public:
-	void Update();
+	// Returns true while this Hooligan is alive
+	bool Update();
 	void Draw();
 	void Init(graphics::scancode_t up_key, graphics::scancode_t down_key,
 		graphics::scancode_t left_key, graphics::scancode_t right_key, graphics::scancode_t fire_key);
@@ -29,4 +30,6 @@ private:
 	float last_fire;
 
 	void SetPosition(glm::vec2 &pos);
+
+	float lives;
 };
