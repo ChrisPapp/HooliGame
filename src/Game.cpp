@@ -3,10 +3,17 @@
 #include "graphics.h"
 #include "Config.h"
 #include "glm/glm.hpp"
+#include "HooliganMenuElement.h"
 
 void Game::Init()
 {
+	PrepareGame();
 	SetupMenu();
+}
+
+Game::~Game()
+{
+	delete menu;
 }
 
 void Game::Update()
@@ -23,7 +30,7 @@ void Game::Update()
 		}), projectiles.end());
 	}
 	else if (state == State::Menu) {
-		menu.Update();
+		menu->Update();
 	}
 }
 
@@ -37,7 +44,7 @@ void Game::Draw()
 		}
 	}
 	else if (state == State::Menu) {
-		menu.Draw();
+		menu->Draw();
 	}
 }
 
@@ -80,32 +87,33 @@ void Game::SetupMenu()
 #define MENU_TEXT_SIZE 40.f
 	graphics::setFont(GetAssetPath(std::string("PixelFont.otf")));
 	state = State::Menu;
-	this->menu = Menu({
-		MenuElement(
+	delete menu;
+	this->menu = new Menu({
+		new MenuElement(
 			[&](glm::vec2 pos) {
 				return DrawText(std::string("Hooligame"), pos, MENU_TEXT_SIZE, glm::vec3(0.f, 0.2f, 0.8f));
 			}),
-		MenuElement(
+		new MenuElement(
 			[&](glm::vec2 pos, bool sel) {
 				return DrawText(std::string("Start Game!"), pos, MENU_TEXT_SIZE, sel ? glm::vec3(1.f) : glm::vec3(0.6f)); 
 			}, 
-			[&]() { PrepareGame(); }),
-		MenuElement(
+			[&]() { PrepareGame(); this->state = State::InGame; }),
+		new HooliganMenuElement(hool1),
+		new HooliganMenuElement(hool2),
+		new MenuElement(
 			[&](glm::vec2 pos, bool sel) {
 				return DrawText(std::string("Quit Game :("), pos, MENU_TEXT_SIZE, sel ? glm::vec3(1.f) : glm::vec3(0.6f));
 			},
 			[&]() { exit(0); }),
-		}, glm::vec2(200, 200));
+		}, glm::vec2(200, 50));
 }
 
 void Game::PrepareGame()
 {
 	// Faces right
-	hool1.Init(glm::vec2(1.f, 0.f), graphics::SCANCODE_W, graphics::SCANCODE_S, graphics::SCANCODE_A, graphics::SCANCODE_D, graphics::SCANCODE_SPACE);
+	hool1.Init("Hooligan 1", glm::vec2(1.f, 0.f), graphics::SCANCODE_W, graphics::SCANCODE_S, graphics::SCANCODE_A, graphics::SCANCODE_D, graphics::SCANCODE_SPACE);
 	// Faces left
-	hool2.Init(glm::vec2(-1.f, 0.f), graphics::SCANCODE_I, graphics::SCANCODE_K, graphics::SCANCODE_J, graphics::SCANCODE_L, graphics::SCANCODE_P);
-
-	this->state = State::InGame;
+	hool2.Init("Hooligan 2", glm::vec2(-1.f, 0.f), graphics::SCANCODE_I, graphics::SCANCODE_K, graphics::SCANCODE_J, graphics::SCANCODE_L, graphics::SCANCODE_P);
 }
 
 float GetDeltaSeconds()

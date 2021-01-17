@@ -15,7 +15,7 @@ MenuElement::MenuElement(std::function<glm::vec2(glm::vec2 pos)> draw)
 	this->draw = [=](glm::vec2 pos, bool sel = false) { return draw(pos); };
 }
 
-Menu::Menu(std::vector<MenuElement> &&options, glm::vec2 &start_coord)
+Menu::Menu(std::vector<MenuElement*> &&options, glm::vec2 &start_coord)
 {
 	this->options = std::move(options);
 	this->start_coord = start_coord;
@@ -23,10 +23,17 @@ Menu::Menu(std::vector<MenuElement> &&options, glm::vec2 &start_coord)
 
 	// Select first selectable
 	curr_option = 0;
-	for (MenuElement el : this->options) {
-		if (el.on_select)
+	for (MenuElement *el : this->options) {
+		if (el->on_select)
 			break;
 		curr_option++;
+	}
+}
+
+Menu::~Menu()
+{
+	for (MenuElement *el : options) {
+		delete el;
 	}
 }
 
@@ -34,7 +41,7 @@ void Menu::Draw()
 {
 	glm::vec2 coords = start_coord;
 	for (int i = 0; i < options.size(); i ++) {
-		glm::vec2 new_coords = options[i].draw(coords, i == curr_option);
+		glm::vec2 new_coords = options[i]->draw(coords, i == curr_option);
 		coords.y = new_coords.y + OPTION_MARGIN;
 	}
 }
@@ -43,31 +50,34 @@ void Menu::Draw()
 #define DELAY 200.f
 void Menu::Update()
 {
-	if (graphics::getKeyState(graphics::SCANCODE_RETURN)) {
-		assert(curr_option < options.size() && curr_option >= 0);
-		assert(options[curr_option].on_select);
-		options[curr_option].on_select();
-	}
-	else if (graphics::getKeyState(graphics::SCANCODE_UP)) {
-		MoveCursor(true);
-	}
-	else if (graphics::getKeyState(graphics::SCANCODE_DOWN)) {
-		MoveCursor(false);
+	float time = graphics::getGlobalTime();
+	// Do an action if enough time has passed
+	if (time - last_movement > DELAY) {
+		if (graphics::getKeyState(graphics::SCANCODE_RETURN)) {
+			assert(curr_option < options.size() && curr_option >= 0);
+			assert(options[curr_option]->on_select);
+			options[curr_option]->on_select();
+			last_movement = time;
+		}
+		else if (graphics::getKeyState(graphics::SCANCODE_UP)) {
+			MoveCursor(true);
+			last_movement = time;
+		}
+		else if (graphics::getKeyState(graphics::SCANCODE_DOWN)) {
+			MoveCursor(false);
+			last_movement = time;
+		}
 	}
 }
 
 void Menu::MoveCursor(bool up)
 {
-	float time = graphics::getGlobalTime();
-	// Move cursor if enough time has passed and target element is selectable
-	if (time - last_movement > DELAY) {
-		do {
-			up ? curr_option-- : curr_option++;
-			if (curr_option < 0 && up)
-				curr_option = options.size() - 1;
-			if (curr_option == options.size() && !up)
-				curr_option = 0;
-		} while (!options[curr_option].on_select);
-		last_movement = time;
-	}
+	// Ensure target item is selectable. Wrap cursor around
+	do {
+		up ? curr_option-- : curr_option++;
+		if (curr_option < 0 && up)
+			curr_option = options.size() - 1;
+		if (curr_option == options.size() && !up)
+			curr_option = 0;
+	} while (!options[curr_option]->on_select);
 }

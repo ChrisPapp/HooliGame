@@ -17,14 +17,15 @@ public:
 	void AddProjectile(Projectile &&proj);
 	void Resize(int x, int y);
 	AABB &GetBounds() { return bounds; };
+	std::string GetAssetPath(std::string &asset);
+	glm::vec2 DrawText(std::string &text, glm::vec2 &pos, float size, glm::vec3 &color);
+	~Game();
 private:
 	Hooligan hool1, hool2;
 	std::vector<Projectile> projectiles;
 	AABB bounds;
 	State state;
-	Menu menu;
-	glm::vec2 DrawText(std::string &text, glm::vec2 &pos, float size, glm::vec3 &color);
-	std::string GetAssetPath(std::string &asset);
+	Menu *menu = nullptr;
 	void SetupMenu();
 	void PrepareGame();
 };

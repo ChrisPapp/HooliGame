@@ -12,19 +12,16 @@
 
 #define INIT_LIVES 25
 
-void Hooligan::Init(glm::vec2 face_dir, graphics::scancode_t up_key, graphics::scancode_t down_key,
+void Hooligan::Init(std::string name, glm::vec2 face_dir, graphics::scancode_t up_key, graphics::scancode_t down_key,
 	graphics::scancode_t left_key, graphics::scancode_t right_key, graphics::scancode_t fire_key)
 {
 	dir = glm::vec2(0, 0);
 	bbox.half_dims = glm::vec2(25, 50);
 	SetPosition(this->bounds.bbox.center);
 	this->face_dir = face_dir;
-	br.fill_color[0] = 1.0f;
-	br.fill_color[1] = 0.0f;
-	br.fill_color[2] = 1.0f;
-	heart_br.fill_color[0] = 1.0f;
-	heart_br.fill_color[1] = 0.0f;
-	heart_br.fill_color[2] = 0.0f;
+	br.outline_opacity = 1.f;
+	heart_br.outline_opacity = 0.f;
+	heart_br.texture = GetGame()->GetAssetPath(std::string("heart.png"));
 	last_fire = graphics::getGlobalTime();
 	keys[movement_keys::up] = up_key;
 	keys[movement_keys::down] = down_key;
@@ -32,17 +29,23 @@ void Hooligan::Init(glm::vec2 face_dir, graphics::scancode_t up_key, graphics::s
 	keys[movement_keys::right] = right_key;
 	keys[movement_keys::fire] = fire_key;
 	lives = INIT_LIVES;
+	this->name = name;
+}
+
+void Hooligan::SetTexture(std::string &texture_name)
+{
+	br.texture = GetGame()->GetAssetPath(texture_name);
 }
 
 void Hooligan::Draw()
 {
-	DrawHooligan();
+	DrawHooligan(this->bbox.center, this->bbox.half_dims.x * 2, this->bbox.half_dims.y * 2);
 	DrawLives();
 }
 
-void Hooligan::DrawHooligan()
+void Hooligan::DrawHooligan(glm::vec2 &pos, float width, float height)
 {
-	graphics::drawRect(this->bbox.center.x, this->bbox.center.y, this->bbox.half_dims.x * 2, this->bbox.half_dims.y * 2, br);
+	graphics::drawRect(pos.x, pos.y, width, height, br);
 }
 
 void Hooligan::DrawLives()
