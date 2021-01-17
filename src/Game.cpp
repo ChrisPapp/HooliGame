@@ -1,4 +1,5 @@
 #include <algorithm>
+#include <unordered_map>
 #include "Game.h"
 #include "graphics.h"
 #include "Config.h"
@@ -97,7 +98,7 @@ void Game::SetupMenu()
 	this->menu = new Menu({
 		new MenuElement(
 			[&](glm::vec2 pos) {
-				return DrawText(winner_name.empty() ? std::string("Hooligame") : winner_name + " won!", pos, MENU_TEXT_SIZE, glm::vec3(0.f, 0.2f, 0.8f));
+				return DrawText(winner_name.empty() ? std::string("Hooligame") : winner_name + " won!", pos, MENU_TEXT_SIZE, glm::vec3(0.f, 0.2f, 0.4f));
 			}),
 		new MenuElement(
 			[&](glm::vec2 pos, bool sel) {
@@ -119,7 +120,7 @@ void Game::PrepareGame()
 	// Faces right
 	hool1.Init("Hooligan 1", glm::vec2(1.f, 0.f), graphics::SCANCODE_W, graphics::SCANCODE_S, graphics::SCANCODE_A, graphics::SCANCODE_D, graphics::SCANCODE_SPACE);
 	// Faces left
-	hool2.Init("Hooligan 2", glm::vec2(-1.f, 0.f), graphics::SCANCODE_I, graphics::SCANCODE_K, graphics::SCANCODE_J, graphics::SCANCODE_L, graphics::SCANCODE_P);
+	hool2.Init("Hooligan 2", glm::vec2(-1.f, 0.f), graphics::SCANCODE_UP, graphics::SCANCODE_DOWN, graphics::SCANCODE_LEFT, graphics::SCANCODE_RIGHT, graphics::SCANCODE_P);
 }
 
 float GetDeltaSeconds()
@@ -130,4 +131,24 @@ float GetDeltaSeconds()
 Game *GetGame()
 { 
 	return reinterpret_cast<Game *> (graphics::getUserData()); 
+}
+
+static std::unordered_map<graphics::scancode_t, std::string> keyNameMap = {
+	{graphics::SCANCODE_W, std::string("W")},
+	{graphics::SCANCODE_A, std::string("A")},
+	{graphics::SCANCODE_S, std::string("S")},
+	{graphics::SCANCODE_D, std::string("D")},
+	{graphics::SCANCODE_UP, std::string("Up Arrow")},
+	{graphics::SCANCODE_DOWN, std::string("Down Arrow")},
+	{graphics::SCANCODE_LEFT, std::string("Left Arrow")},
+	{graphics::SCANCODE_RIGHT, std::string("Right Arrow")},
+	{graphics::SCANCODE_RETURN, std::string("Enter")},
+	{graphics::SCANCODE_SPACE, std::string("Space")},
+	{graphics::SCANCODE_P, std::string("P")},
+};
+
+std::string &ScancodeToText(graphics::scancode_t key)
+{
+	assert(keyNameMap.find(key) != keyNameMap.end());
+	return keyNameMap[key];
 }

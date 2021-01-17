@@ -19,13 +19,6 @@ public:
 	void DrawHooligan(glm::vec2 &pos, float width, float height);
 	void SetTexture(std::string &texture_name);
 	std::string &GetName() { return name; };
-private:
-	glm::vec2 dir;
-	glm::vec2 face_dir;
-	graphics::Brush br, heart_br;
-
-	std::string name;
-	std::string texture_name;
 	enum movement_keys {
 		up,
 		down,
@@ -34,6 +27,14 @@ private:
 		fire,
 		num_keys,
 	};
+	std::string &GetKeyName(enum movement_keys key);
+private:
+	glm::vec2 dir;
+	glm::vec2 face_dir;
+	graphics::Brush br, heart_br;
+
+	std::string name;
+	std::string texture_name;
 	std::array<graphics::scancode_t, movement_keys::num_keys> keys;
 	float last_fire;
 

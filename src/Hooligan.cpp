@@ -138,3 +138,8 @@ bool Hooligan::IsHit(Projectile &proj)
 	lives--;
 	return true;
 }
+
+std::string &Hooligan::GetKeyName(enum movement_keys key)
+{
+	return ScancodeToText(keys[key]);
+}

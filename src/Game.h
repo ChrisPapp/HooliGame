@@ -33,3 +33,4 @@ private:
 
 float GetDeltaSeconds();
 Game *GetGame();
+std::string &ScancodeToText(graphics::scancode_t key);
