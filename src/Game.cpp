@@ -19,7 +19,13 @@ Game::~Game()
 void Game::Update()
 {
 	if (state == State::InGame) {
-		if (!hool1.Update() || !hool2.Update()) {
+		if (!hool1.Update()) {
+			winner_name = hool2.GetName();
+			SetupMenu();
+			return; // Game over
+		}
+		if (!hool2.Update()) {
+			winner_name = hool1.GetName();
 			SetupMenu();
 			return; // Game over
 		}
@@ -91,7 +97,7 @@ void Game::SetupMenu()
 	this->menu = new Menu({
 		new MenuElement(
 			[&](glm::vec2 pos) {
-				return DrawText(std::string("Hooligame"), pos, MENU_TEXT_SIZE, glm::vec3(0.f, 0.2f, 0.8f));
+				return DrawText(winner_name.empty() ? std::string("Hooligame") : winner_name + " won!", pos, MENU_TEXT_SIZE, glm::vec3(0.f, 0.2f, 0.8f));
 			}),
 		new MenuElement(
 			[&](glm::vec2 pos, bool sel) {

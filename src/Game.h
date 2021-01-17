@@ -25,6 +25,7 @@ private:
 	std::vector<Projectile> projectiles;
 	AABB bounds;
 	State state;
+	std::string winner_name = "";
 	Menu *menu = nullptr;
 	void SetupMenu();
 	void PrepareGame();
