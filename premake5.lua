@@ -14,14 +14,10 @@ project "Game"
     includedirs { "src/", "vendor/sgg/graphics/", "vendor/sgg/3rdparty/include/" }
     libdirs { "vendor/sgg/lib/" }
 
-    filter "configurations:Debug"
-        defines "DEBUG"
-        runtime "Debug"
-        symbols "On"
-    filter "configurations:Release"
-        defines "RELEASE"
-        runtime "Release"
-        optimize "On"
+    -- copy assets to build dir
+    postbuildcommands {
+        "{COPY} assets/ %{cfg.targetdir}/assets"
+    }
 
     if os.host() == "windows" then
         -- build sgg
@@ -47,4 +43,13 @@ project "Game"
         filter "configurations:Release"
             links { "sgg", "GLEW", "SDL2", "SDL2_mixer", "freetype", "framework.dll", "OpenGL.framework" }
     end
+
+    filter "configurations:Debug"
+        defines "DEBUG"
+        runtime "Debug"
+        symbols "On"
+    filter "configurations:Release"
+        defines "RELEASE"
+        runtime "Release"
+        optimize "On"
 

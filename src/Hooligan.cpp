@@ -16,8 +16,8 @@ void Hooligan::Init(glm::vec2 face_dir, graphics::scancode_t up_key, graphics::s
 	graphics::scancode_t left_key, graphics::scancode_t right_key, graphics::scancode_t fire_key)
 {
 	dir = glm::vec2(0, 0);
-	bbox.center = glm::vec2(200, 250);
 	bbox.half_dims = glm::vec2(25, 50);
+	SetPosition(this->bounds.bbox.center);
 	this->face_dir = face_dir;
 	br.fill_color[0] = 1.0f;
 	br.fill_color[1] = 0.0f;
