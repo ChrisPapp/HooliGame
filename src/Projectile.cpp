@@ -10,8 +10,8 @@ Projectile::Projectile(glm::vec2 &pos, glm::vec2 &dir, Hooligan *source)
 	this->dir = glm::normalize(dir);
 	this->source = source;
 	speed = 1300.0f;
-	br.outline_opacity = 1.f;
-	br.texture = GetGame()->GetAssetPath(std::string("yellow.png"));
+	br.outline_opacity = 0.f;
+	br.texture = GetGame()->GetAssetPath(std::string("rock.png"));
 }
 
 void Projectile::Draw()

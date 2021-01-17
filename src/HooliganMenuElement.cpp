@@ -5,10 +5,10 @@
 #include "HooliganMenuElement.h"
 
 static std::array<std::string, 4> textures = {
-	std::string("red.png"),
-	std::string("yellow.png"),
-	std::string("green.png"),
-	std::string("black.png"),
+	std::string("red"),
+	std::string("yellow"),
+	std::string("green"),
+	std::string("black"),
 };
 
 HooliganMenuElement::HooliganMenuElement(Hooligan &hool) :

@@ -32,7 +32,7 @@ int main()
 	graphics::setCanvasSize(CANVAS_WIDTH, CANVAS_HEIGHT);
 	graphics::setCanvasScaleMode(graphics::CANVAS_SCALE_FIT);
 	graphics::Brush br;
-	br.fill_color[0] = 0.1f;
+	br.fill_color[0] = 0.5f;
 	br.fill_color[1] = 0.1f;
 	br.fill_color[2] = 0.1f;
 	graphics::setWindowBackground(br);

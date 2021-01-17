@@ -25,6 +25,7 @@ private:
 	graphics::Brush br, heart_br;
 
 	std::string name;
+	std::string texture_name;
 	enum movement_keys {
 		up,
 		down,

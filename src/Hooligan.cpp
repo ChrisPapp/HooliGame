@@ -19,7 +19,7 @@ void Hooligan::Init(std::string name, glm::vec2 face_dir, graphics::scancode_t u
 	bbox.half_dims = glm::vec2(25, 50);
 	SetPosition(this->bounds.bbox.center);
 	this->face_dir = face_dir;
-	br.outline_opacity = 1.f;
+	br.outline_opacity = 0.f;
 	heart_br.outline_opacity = 0.f;
 	heart_br.texture = GetGame()->GetAssetPath(std::string("heart.png"));
 	last_fire = graphics::getGlobalTime();
@@ -34,7 +34,7 @@ void Hooligan::Init(std::string name, glm::vec2 face_dir, graphics::scancode_t u
 
 void Hooligan::SetTexture(std::string &texture_name)
 {
-	br.texture = GetGame()->GetAssetPath(texture_name);
+	this->texture_name = texture_name;
 }
 
 void Hooligan::Draw()
@@ -43,8 +43,18 @@ void Hooligan::Draw()
 	DrawLives();
 }
 
+#define THROWING_DURATION 200 // How many millisecods is the throwing asset shown
 void Hooligan::DrawHooligan(glm::vec2 &pos, float width, float height)
 {
+	float time = graphics::getGlobalTime();
+	std::string asset_to_use = texture_name;
+	if (time - last_fire < THROWING_DURATION)
+		asset_to_use += "Throw";
+	if (face_dir.x > 0)
+		asset_to_use += "L";
+	else
+		asset_to_use += "R";
+	br.texture = GetGame()->GetAssetPath(asset_to_use + ".png");
 	graphics::drawRect(pos.x, pos.y, width, height, br);
 }
 
