@@ -18,7 +18,9 @@ public:
 	void Resize(int x, int y);
 	AABB &GetBounds() { return bounds; };
 	std::string GetAssetPath(std::string &asset);
+	std::string GetAssetPath(std::string &&asset);
 	glm::vec2 DrawText(std::string &text, glm::vec2 &pos, float size, glm::vec3 &color);
+	glm::vec2 DrawText(std::string &&text, glm::vec2 &pos, float size, glm::vec3 &&color);
 	~Game();
 private:
 	Hooligan hool1, hool2;

@@ -84,7 +84,19 @@ glm::vec2 Game::DrawText(std::string &text, glm::vec2 &pos, float size, glm::vec
 	return pos;
 }
 
+glm::vec2 Game::DrawText(std::string &&text, glm::vec2 &pos, float size, glm::vec3 &&color)
+{
+	std::string title = std::move(text);
+	glm::vec3 col = color;
+	return this->DrawText(title, pos, size, col);
+}
+
 std::string Game::GetAssetPath(std::string &asset)
+{
+	return this->GetAssetPath(asset);
+}
+
+std::string Game::GetAssetPath(std::string &&asset)
 {
 	return "assets/" + asset;
 }
@@ -98,11 +110,11 @@ void Game::SetupMenu()
 	this->menu = new Menu({
 		new MenuElement(
 			[&](glm::vec2 pos) {
-				return DrawText(winner_name.empty() ? std::string("Hooligame") : winner_name + " won!", pos, MENU_TEXT_SIZE, glm::vec3(0.f, 0.2f, 0.4f));
+				return DrawText(winner_name.empty() ? std::string("Hooligame") : std::string(winner_name + " won!"), pos, MENU_TEXT_SIZE, glm::vec3(0.f, 0.2f, 0.4f));
 			}),
 		new MenuElement(
 			[&](glm::vec2 pos, bool sel) {
-				return DrawText(std::string("Start Game!"), pos, MENU_TEXT_SIZE, sel ? glm::vec3(1.f) : glm::vec3(0.6f)); 
+				return DrawText(std::string("Start Game!"), pos, MENU_TEXT_SIZE, sel ? glm::vec3(1.f) : glm::vec3(0.6f));
 			}, 
 			[&]() { PrepareGame(); this->state = State::InGame; }),
 		new HooliganMenuElement(hool1),

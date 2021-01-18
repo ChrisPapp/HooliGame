@@ -15,7 +15,7 @@ MenuElement::MenuElement(std::function<glm::vec2(glm::vec2 pos)> draw)
 	this->draw = [=](glm::vec2 pos, bool sel = false) { return draw(pos); };
 }
 
-Menu::Menu(std::vector<MenuElement*> &&options, glm::vec2 &start_coord)
+Menu::Menu(std::vector<MenuElement*> &&options, glm::vec2 &&start_coord)
 {
 	this->options = std::move(options);
 	this->start_coord = start_coord;

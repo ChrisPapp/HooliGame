@@ -6,7 +6,7 @@ class Hooligan;
 class Projectile : public Collidable
 {
 public:
-	Projectile(glm::vec2 &pos, glm::vec2 &dir, Hooligan *source);
+	Projectile(glm::vec2 &pos, glm::vec2 &&dir, Hooligan *source);
 
 	void Draw();
 	// Returns False if this projectile is no longer valid (e.g. out of range)
@@ -19,5 +19,5 @@ private:
 	graphics::Brush br;
 	glm::vec2 dir;
 	Hooligan *source;
-	bool SetPosition(glm::vec2 &pos);
+	bool SetPosition(glm::vec2 &&pos);
 };

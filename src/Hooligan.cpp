@@ -85,14 +85,14 @@ bool Hooligan::Update()
 	else if (graphics::getKeyState(keys[movement_keys::down]) && !graphics::getKeyState(keys[movement_keys::up]))
 		dir.y += (ACCELERATION / MAX_SPEED) * GetDeltaSeconds();
 	else
-		signbit(dir.y) ? dir.y = glm::min(0.f, dir.y + (ACCELERATION / MAX_SPEED) * GetDeltaSeconds()) : dir.y = glm::max(0.f, dir.y - (ACCELERATION / MAX_SPEED) * GetDeltaSeconds());
+		std::signbit(dir.y) ? dir.y = glm::min(0.f, dir.y + (ACCELERATION / MAX_SPEED) * GetDeltaSeconds()) : dir.y = glm::max(0.f, dir.y - (ACCELERATION / MAX_SPEED) * GetDeltaSeconds());
 
 	if (graphics::getKeyState(keys[movement_keys::left]) && !graphics::getKeyState(keys[movement_keys::right]))
 		dir.x -= (ACCELERATION / MAX_SPEED) * GetDeltaSeconds();
 	else if (graphics::getKeyState(keys[movement_keys::right]) && !graphics::getKeyState(keys[movement_keys::left]))
 		dir.x += (ACCELERATION / MAX_SPEED) * GetDeltaSeconds();
 	else
-		signbit(dir.x) ? dir.x = glm::min(0.f, dir.x + (ACCELERATION / MAX_SPEED) * GetDeltaSeconds()) : dir.x = glm::max(0.f, dir.x - (ACCELERATION / MAX_SPEED) * GetDeltaSeconds());
+		std::signbit(dir.x) ? dir.x = glm::min(0.f, dir.x + (ACCELERATION / MAX_SPEED) * GetDeltaSeconds()) : dir.x = glm::max(0.f, dir.x - (ACCELERATION / MAX_SPEED) * GetDeltaSeconds());
 	// Keep within [-1, 1]
 	dir = glm::max(glm::min(glm::vec2(1.f), dir), glm::vec2(-1.f));
 	SetPosition(this->bbox.center + GetDeltaSeconds() * MAX_SPEED * dir);
@@ -115,6 +115,11 @@ void Hooligan::SetBounds(Collidable &&coll)
 	this->bounds = coll;
 	// Move to the center, to prevent being trapped out of bounds
 	SetPosition(this->bounds.bbox.center);
+}
+
+void Hooligan::SetPosition(glm::vec2 &&pos)
+{
+	SetPosition(pos);
 }
 
 void Hooligan::SetPosition(glm::vec2 &pos)

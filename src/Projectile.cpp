@@ -3,7 +3,7 @@
 #include "Game.h"
 #include "Projectile.h"
 
-Projectile::Projectile(glm::vec2 &pos, glm::vec2 &dir, Hooligan *source)
+Projectile::Projectile(glm::vec2 &pos, glm::vec2 &&dir, Hooligan *source)
 {
 	this->bbox.center = pos;
 	this->bbox.half_dims = glm::vec2(10, 10);
@@ -24,7 +24,7 @@ bool Projectile::Update()
 	return SetPosition(this->bbox.center + speed * GetDeltaSeconds() * dir);
 }
 
-bool Projectile::SetPosition(glm::vec2 &pos)
+bool Projectile::SetPosition(glm::vec2 &&pos)
 {
 	// Ensure canvas contains this projectile
 	if (Collidable(GetGame()->GetBounds()).Collide(*this) != Contains)

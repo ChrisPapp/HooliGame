@@ -16,6 +16,7 @@ public:
 	bool IsHit(Projectile &proj);
 	void SetBounds(Collidable &&coll);
 	void SetPosition(glm::vec2 &pos);
+	void SetPosition(glm::vec2 &&pos);
 	void DrawHooligan(glm::vec2 &pos, float width, float height);
 	void SetTexture(std::string &texture_name);
 	std::string &GetName() { return name; };

@@ -1,8 +1,8 @@
 #pragma once
 #include "glm/vec2.hpp"
 
-#define MIN_DIM(aabb, dim) aabb.center.##dim - aabb.half_dims.##dim
-#define MAX_DIM(aabb, dim) aabb.center.##dim + aabb.half_dims.##dim
+#define MIN_DIM(aabb, dim) aabb.center.dim - aabb.half_dims.dim
+#define MAX_DIM(aabb, dim) aabb.center.dim + aabb.half_dims.dim
 
 enum CollisionType {
 	Outside,
@@ -27,6 +27,7 @@ class Collidable {
 
 public:
 	Collidable(AABB &bounds) { bbox = bounds; };
+	Collidable(AABB &&bounds) { bbox = bounds; };
 	Collidable() = default;
 	virtual CollisionType Collide(Collidable &other) { return this->bbox.CalculateIntersection(other.bbox); };
 	AABB bbox;

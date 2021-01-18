@@ -18,7 +18,7 @@ struct MenuElement {
 
 class Menu {
 public:
-	Menu(std::vector<MenuElement*> &&options, glm::vec2 &start_coord);
+	Menu(std::vector<MenuElement*> &&options, glm::vec2 &&start_coord);
 	Menu() = default;
 	virtual ~Menu();
 	void Update();
