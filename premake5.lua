@@ -37,6 +37,8 @@ project "Game"
     elseif os.host() == "macosx" then
         os.execute "cd vendor/sgg; ./build_sgg_macOS.sh"
 
+        cppdialect "C++17"
+
         filter "configurations:Debug"
             links { "sggd", "GLEW", "SDL2", "SDL2_mixer", "freetype", "framework.dll", "OpenGL.framework" }
 
